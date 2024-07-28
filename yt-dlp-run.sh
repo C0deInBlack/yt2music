@@ -15,8 +15,8 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 else
   if [ -n "$url" ]; then
-    sudo docker run -it --rm --name yt-dlp -v "$path":/app/data c0deinblack/yt-dlp-at:v1.1 -m "$metadata" -u "$url"
+    sudo docker run -it --rm --name yt-dlp -v "$path":/app/data c0deinblack/yt-dlp-at:v1.2 -m "$metadata" -u "$url"
   else
-    sudo docker run -it --rm --name yt-dlp -v "$path":/app/data -v "$filename":/app/"$(basename "$filename")" c0deinblack/yt-dlp-at:v1.1 -m "$metadata" -f "$(basename "$filename")"
+    sudo docker run -it --rm --name yt-dlp -v "$path":/app/data -v "$filename":/app/"$(basename "$filename")" c0deinblack/yt-dlp-at:v1.2 -m "$metadata" -f "$(basename "$filename")"
   fi
 fi
