@@ -1,55 +1,76 @@
 # yt-dlp-at
 Download music from YouTube, add metadata and cover image.
 
-**Updated with Cython !**
+**Made with Cython**
 
 ## Installation
 
 ```bash
-sudo docker pull c0deinblack/yt-dlp-at:v1.5
+sudo docker pull c0deinblack/yt-dlp-at:v1.6
 ```
 
-For `zsh`, run the next commands to add the functions in your `.zshrc`
+Then clone the repository:
 
 ```bash
-echo 'function yt_at_file(){ if [ "$#" -ne 3 ]; then echo -e "usage: $funcstack <path> <metadata> <file>"; else docker run -it --rm -v "$1":/app/data -v "$3":/app/"$(basename "$3")" c0deinblack/yt-dlp-at:v1.5 -m "$2" -f "$(basename "$3")"; fi }' >> ~/.zshrc
-
-echo 'function yt_at_url(){ if [ "$#" -ne 3 ];then echo -e "usage: $funcstack <path> <metadata> <url>"; else docker run -it --rm -v "$1":/app/data c0deinblack/yt-dlp-at:v1.5 -m "$2" -u "$3";fi }' >> ~/.zshrc
-```
-
-For `bash`, run the next commands to add the functions in your `.bashrc`
-
-```bash
-echo 'function yt_at_file(){ if [ "$#" -ne 3 ]; then echo -e "usage: $FUNCNAME <path> <metadata> <file>"; else docker run -it --rm -v "$1":/app/data -v "$3":/app/"$(basename "$3")" c0deinblack/yt-dlp-at:v1.5 -m "$2" -f "$(basename "$3")"; fi }' >> ~/.bashrc
-
-echo 'function yt_at_url(){ if [ "$#" -ne 3 ];then echo -e "usage: $FUNCNAME <path> <metadata> <url>"; else docker run -it --rm -v "$1":/app/data c0deinblack/yt-dlp-at:v1.5 -m "$2" -u "$3";fi }' >> ~/.bashrc
+git clone https://github.com/C0deInBlack/yt-dlp-at.git
 ```
 
 ## Usage
 
 ```bash
-usage: yt_at_url <path> <metadata> <url>
-usage: yt_at_file <path> <metadata> <file>
-```
-### From URL
+./yt_dlp_at.py
+usage: yt_dlp_at.py [-h] [-p PATH] [-m METADATA] [-f FILE] [-u URL] [-s SECTIONS]
+                    [-sf SECTIONS_FILE] [-sn SECTIONS_NAMES] [-st SECTIONS_TITLE]
 
-If you want to download from a url, just call the function with the arguments:
+Script for download YT music
 
-```bash
-yt_at_url /path/to/your/music/artist Artist "https://www.youtube.com/@artist/releases"
+options:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  Path to save the music [Text Input]
+  -m METADATA, --metadata METADATA
+                        Metadata (Artist name) [Text Input]
+  -f FILE, --file FILE  Custom urls to read [File]
+  -u URL, --url URL     Url to download music from [Text Input]
+  -s SECTIONS, --sections SECTIONS
+                        Download sections [True / False] (Default is False)
+  -sf SECTIONS_FILE, --sections_file SECTIONS_FILE
+                        Sections to download [File]
+  -sn SECTIONS_NAMES, --sections_names SECTIONS_NAMES
+                        Names of the sections [File]
+  -st SECTIONS_TITLE, --sections_title SECTIONS_TITLE
+                        Use the sections title [True / False] (Default is False)
+
+Examples:
+Download from a URL:
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -u 'https://www.youtube.com/example'
+
+Read from a file:
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -f /path/to/list.txt
+
+Download sections and use custom names for the songs:
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
+
+Download sections and use default titles from the videos:
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
 ```
+
 **NOTE:** Don't write the metadata argument all in upper case, otherwise the program will fail. Why? I don't know. Things with python argparse.
 
-I recommend use this option only if the link you are downloading have 'releases' in the url `https://www.youtube.com/@artist/releases` otherwise it will mess up and download all the songs in one directory instead of separated albums.
-
-### From file
-
-The best option is to download from a list, you have to save the links of the albums in a plain text file and call the function with its arguments:
+### Download from URL
 
 ```bash
-yt_at_file /path/to/your/music/artist Artist /path/to/your/file/file.txt
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -u 'https://www.youtube.com/example'
 ```
-The file to read only have to be one link per line:
+
+I recommend download from a url only if the link you are downloading have 'releases' in the url `https://www.youtube.com/@artist/releases` otherwise it will mess up and download all the songs in one directory instead of separated albums.
+
+### Download from file
+
+```bash
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -f /path/to/list.txt
+```
+
+The best option is to download from a list, you have to save the links of the albums playlists in a plain text file. The file to read only have to be one link per line:
 
 ```
 https://www.youtube.com/playlist?list=OLAK5uy_mI7UDM5J5hMzEuJU3YtHAwNRYuXZ1C5eE
@@ -58,9 +79,57 @@ https://www.youtube.com/playlist?list=OLAK5uy_mb6E4B-zH404-oNnTX7M7G3REvN-ZM1rE
 https://www.youtube.com/playlist?list=OLAK5uy_k8K0UZjoN_EizF0w9WgNDSgjC6TokIWtU
 ```
 
-In both options (with url or file) if the name of one of your directories or artist has spaces, you should write `directory\ name` or `artist\ name` or you can write it beetwenn `""`:
+In both options (with url or file) if the name of one of your directories or artist has spaces, you should write `directory\ name` or `artist\ name` or you can write it beetwenn `"Artist name"` or `'Artist name'`:
+
+### Download sections
+
+For download separated sections from a single video, you have two options:
+
+#### Fisrt Option (Sections)
+
+A sections file with the duration of the each song in the next format
 
 ```bash
-yt_at_file /path/to/your/music/artist\ name artist\ name /path/to/your/file/file.txt
-yt_at_url "/path/to/your/music/artist" "Artist name" "https://www.youtube.com/@artist/releases"
+00:00-00:20
+00:20-04:11
+04:11-10:16
+10:16-15:06
+15:06:18:47
+18:47-24:59
 ```
+
+And a sections names file with the the title you want for each song.
+
+```bash
+Song_title 1
+Song_title 2
+Song_title 3
+Song_title 4
+Song_title 5
+Song_title 6
+```
+
+This will download the specified sections and add the custom title you provide in the sections name file.
+
+```bash
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
+```
+#### Second Option (Sections)
+
+Or use the default sections title for the video (which not always work), and add it to the sections file, usually the sections names are in the description of the YouTube video
+
+```bash
+Default_section_name 1
+Default_section_name 2
+Default_section_name 3
+Default_section_name 4
+Default_section_name 5
+Default_section_name 6
+```
+
+This will download the sections and add the default name from the YouTube video
+
+```bash
+./yt_dlp_at.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
+```
+
