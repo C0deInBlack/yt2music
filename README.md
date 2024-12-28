@@ -13,6 +13,7 @@ Then clone the repository:
 
 ```bash
 git clone https://github.com/C0deInBlack/yt-dlp-at.git
+chmod +x yt_dlp_at.py
 ```
 
 ## Usage
