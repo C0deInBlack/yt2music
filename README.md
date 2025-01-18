@@ -6,7 +6,7 @@ Download music from YouTube, add metadata and cover image.
 ## Installation
 
 ```bash
-sudo docker pull c0deinblack/yt-dlp-at:v1.6
+sudo docker pull c0deinblack/yt-dlp-at:v1.7
 ```
 
 Then clone the repository:
