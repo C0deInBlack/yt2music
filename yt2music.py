@@ -2,10 +2,10 @@
 
 import subprocess, sys, argparse, os, signal, textwrap
 
-VERSION: str = "v1.7"
+VERSION: str = "v1.8"
 # VERSION: str = "latest"
 IMAGE: str = "c0deinblack/yt-dlp-at"
-# IMAGE: str = "test2"
+# IMAGE: str = "test"
 
 def yt_dlp() -> None:
     parser = argparse.ArgumentParser(
@@ -13,17 +13,17 @@ def yt_dlp() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent('''Examples:
 Download from a URL:
-./yt_dlp_at.py -p /path/artist -m 'Artist name' -u 'https://www.youtube.com/example'
+%s -p /path/artist -m 'Artist name' -u 'https://www.youtube.com/example'
 
 Read from a file:
-./yt_dlp_at.py -p /path/artist -m 'Artist name' -f /path/to/list.txt 
+%s -p /path/artist -m 'Artist name' -f /path/to/list.txt 
 
 Download sections and use custom names for the songs:
-./yt_dlp_at.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
+%s -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
 
 Download sections and use default titles from the videos:
-./yt_dlp_at.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example' 
-        '''))
+%s -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example' 
+        ''' % (sys.argv[0], sys.argv[0], sys.argv[0], sys.argv[0])))
     parser.add_argument('-p', '--path', type=str, default='', help='Path to save the music [Text Input]')
     parser.add_argument('-m', '--metadata', type=str, default='', help='Metadata (Artist name) [Text Input]')
     parser.add_argument('-f', '--file', type=str, default='', help='Custom urls to read [File]')
