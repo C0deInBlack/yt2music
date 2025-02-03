@@ -79,13 +79,13 @@ https://www.youtube.com/playlist?list=OLAK5uy_mb6E4B-zH404-oNnTX7M7G3REvN-ZM1rE
 https://www.youtube.com/playlist?list=OLAK5uy_k8K0UZjoN_EizF0w9WgNDSgjC6TokIWtU
 ```
 
-In both options (with url or file) if the name of one of your directories or artist has spaces, you should write `directory\ name` or `artist\ name` or you can write it beetwenn `"Artist name"` or `'Artist name'`:
+In both options (with url or file) if the name of one of your directories or artist has spaces, you should write `directory\ name` or `artist\ name` or you can write it between `"Artist name"` or `'Artist name'`:
 
 ### Download sections
 
 For download separated sections from a single video, you have two options:
 
-#### Fisrt Option (Sections)
+#### First Option (Sections)
 
 A sections file with the duration of the each song in the next format
 
