@@ -2,10 +2,10 @@
 
 import subprocess, sys, argparse, os, signal, textwrap
 
-VERSION: str = "v1.8"
+VERSION: str = "v1.9"
 # VERSION: str = "latest"
 IMAGE: str = "c0deinblack/yt-dlp-at"
-# IMAGE: str = "test"
+# IMAGE: str = "test_1"
 
 def yt_dlp() -> None:
     parser = argparse.ArgumentParser(
@@ -19,7 +19,7 @@ Read from a file:
 %s -p /path/artist -m 'Artist name' -f /path/to/list.txt 
 
 Download sections and use custom names for the songs:
-%s -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
+%s -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -u 'http://www.youtube.com/example'
 
 Download sections and use default titles from the videos:
 %s -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example' 
@@ -30,7 +30,6 @@ Download sections and use default titles from the videos:
     parser.add_argument('-u', '--url', type=str, default='', help='Url to download music from [Text Input]')
     parser.add_argument('-s', '--sections', type=bool, default=False, help='Download sections [True / False] (Default is False)')
     parser.add_argument('-sf', '--sections_file', type=str, default='', help='Sections to download [File]')
-    parser.add_argument('-sn', '--sections_names', type=str, default='', help='Names of the sections [File]')
     parser.add_argument('-st', '--sections_title', type=bool, default=False, help='Use the sections title [True / False] (Default is False)')
     args = parser.parse_args()
 
@@ -53,9 +52,6 @@ Download sections and use default titles from the videos:
     if args.sections_file:
         command.append("-v"); command.append(f"{args.sections_file}:/app/{os.path.basename(args.sections_file)}")
         parameters.append("-sf"); parameters.append(os.path.basename(args.sections_file))
-    if args.sections_names:
-        command.append("-v"); command.append(f"{args.sections_names}:/app/{os.path.basename(args.sections_names)}")
-        parameters.append("-sn"); parameters.append(os.path.basename(args.sections_names))
     if args.sections_title: parameters.append("-st"); parameters.append("true")
     
     command.append(f"{IMAGE}:{VERSION}")
