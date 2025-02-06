@@ -6,7 +6,7 @@ Download entire artist's music from YouTube: playlists, full albums, or song sec
 ## Installation
 
 ```bash
-sudo docker pull c0deinblack/yt-dlp-at:v1.8
+sudo docker pull c0deinblack/yt-dlp-at:v1.9
 ```
 
 Then clone the repository:
@@ -20,7 +20,7 @@ chmod +x yt2music.py
 
 ```
 ./yt2music
-usage: yt2music.py [-h] [-p PATH] [-m METADATA] [-f FILE] [-u URL] [-s SECTIONS] [-sf SECTIONS_FILE] [-sn SECTIONS_NAMES] [-st SECTIONS_TITLE]
+usage: yt2music.py [-h] [-p PATH] [-m METADATA] [-f FILE] [-u URL] [-s SECTIONS] [-sf SECTIONS_FILE] [-st SECTIONS_TITLE]
 
 Script for download YT music
 
@@ -35,8 +35,6 @@ options:
                         Download sections [True / False] (Default is False)
   -sf, --sections_file SECTIONS_FILE
                         Sections to download [File]
-  -sn, --sections_names SECTIONS_NAMES
-                        Names of the sections [File]
   -st, --sections_title SECTIONS_TITLE
                         Use the sections title [True / False] (Default is False)
 
@@ -48,7 +46,7 @@ Read from a file:
 ./yt2music.py -p /path/artist -m 'Artist name' -f /path/to/list.txt
 
 Download sections and use custom names for the songs:
-./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
+./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -u 'http://www.youtube.com/example'
 
 Download sections and use default titles from the videos:
 ./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
@@ -87,32 +85,21 @@ For download separated sections from a single video, you have two options:
 
 #### First Option (Sections)
 
-A sections file with the duration of the each song in the next format
+A sections file with the start time and the name of each song in the next format
 
 ```bash
-00:00-00:20
-00:20-04:11
-04:11-10:16
-10:16-15:06
-15:06:18:47
-18:47-24:59
+00:00 Song_title 1
+00:20 Song_title 2
+04:11 Song_title 3
+10:16 Song_title 4
+15:06 Song_title 5
+18:47 Song_title 6
 ```
 
-And a sections names file with the the title you want for each song.
+This will download the specified sections and add the custom title you provided.
 
 ```bash
-Song_title 1
-Song_title 2
-Song_title 3
-Song_title 4
-Song_title 5
-Song_title 6
-```
-
-This will download the specified sections and add the custom title you provide in the sections name file.
-
-```bash
-./yt2music -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
+./yt2music -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -u 'http://www.youtube.com/example'
 ```
 #### Second Option (Sections)
 
