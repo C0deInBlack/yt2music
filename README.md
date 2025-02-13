@@ -85,7 +85,7 @@ For download separated sections from a single video, you have two options:
 
 #### First Option (Sections)
 
-A sections file with the start time and the name of each song in the next format
+A sections file with the start time and the name of each song in the next format:
 
 ```bash
 00:00 Song_title 1
