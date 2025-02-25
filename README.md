@@ -1,12 +1,10 @@
 # yt2music
 Download entire artist's music from YouTube: playlists, full albums, or song sections, with automatic metadata and cover image tagging. 
 
-**Made with Cython**
-
 ## Installation
 
 ```bash
-sudo docker pull c0deinblack/yt-dlp-at:v1.9
+sudo docker pull c0deinblack/yt-dlp-at:v2.0
 ```
 
 Then clone the repository:
