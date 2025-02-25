@@ -2,10 +2,10 @@
 
 import subprocess, sys, argparse, os, signal, textwrap
 
-VERSION: str = "v1.9"
+VERSION: str = "v2.0"
 # VERSION: str = "latest"
 IMAGE: str = "c0deinblack/yt-dlp-at"
-# IMAGE: str = "test_1"
+# IMAGE: str = "test"
 
 def yt_dlp() -> None:
     parser = argparse.ArgumentParser(
@@ -33,8 +33,8 @@ Download sections and use default titles from the videos:
     parser.add_argument('-st', '--sections_title', type=bool, default=False, help='Use the sections title [True / False] (Default is False)')
     args = parser.parse_args()
 
-    command: str = ["docker", "run", "-it", "--rm"]
-    parameters: str = []
+    command: list[str] = ["docker", "run", "-it", "--rm"]
+    parameters: list[str] = []
 
     if not args.path: parser.print_help(); sys.exit(1)
     elif not os.path.isdir(args.path):
