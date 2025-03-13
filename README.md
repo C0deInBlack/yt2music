@@ -3,6 +3,8 @@ Download entire artist's music from YouTube: playlists, full albums, or song sec
 
 ## Installation
 
+Docker
+
 ```bash
 sudo docker pull c0deinblack/yt-dlp-at:v2.0
 ```
@@ -11,6 +13,15 @@ Then clone the repository:
 
 ```bash
 git clone https://github.com/C0deInBlack/yt2music.git
+chmod +x yt2music.py
+```
+
+Local build
+
+```bash
+git clone https://github.com/C0deInBlack/yt2music.git
+cd yt2music
+docker build -t c0deinblack/yt-dlp-at:v2.0
 chmod +x yt2music.py
 ```
 
