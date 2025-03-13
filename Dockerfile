@@ -16,7 +16,7 @@ RUN pipx install rich --include-deps
 
 RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -P /app 
 
-RUN chmod +x yt-dlp app.py setup.py main.py
+RUN chmod +x yt-dlp app.py
 
 # RUN python setup.py build_ext --inplace
 
