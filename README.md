@@ -7,11 +7,6 @@ Docker
 
 ```bash
 sudo docker pull c0deinblack/yt-dlp-at:v2.0
-```
-
-Then clone the repository:
-
-```bash
 git clone https://github.com/C0deInBlack/yt2music.git
 chmod +x yt2music.py
 ```
