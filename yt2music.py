@@ -2,7 +2,7 @@
 
 import subprocess, sys, argparse, os, signal, textwrap
 
-VERSION: str = "v2.0"
+VERSION: str = "v2.1"
 # VERSION: str = "latest"
 IMAGE: str = "c0deinblack/yt-dlp-at"
 # IMAGE: str = "test"
