@@ -2,8 +2,8 @@
 
 import argparse, json, os, subprocess, sys, signal, shutil, requests, textwrap, mimetypes, re, time
 
-sys.path.append('LIBS/lib/python3.12/site-packages')
-# sys.path.append('/root/.local/share/pipx/venvs/rich/lib/python3.12/site-packages')
+# sys.path.append('LIBS/lib/python3.12/site-packages')
+sys.path.append('/root/.local/share/pipx/venvs/rich/lib/python3.12/site-packages')
 from rich.console import Console
 from rich.progress import Progress
 
@@ -81,27 +81,33 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
     console = Console()
 
     with open(file_name) as f: file = [i for i in f]
-    
+   
+    index_: int = 0 
+    counter_: int = 0
+
     with Progress() as progress:
         task = progress.add_task("Downloading", total=len(file))
         for index, link in enumerate(file):
-            progress.update(task, advance=1, description="Downloading %i of %i" % (index, len(file)))
+            index_ = index
+            progress.update(task, advance=1, description="Downloading %i of %i" % (index+1, len(file)))
 
             album_path = os.path.join(app_path, album_names[index])
             saveName(album_path)
 
             try: os.makedirs(album_path)
             except FileExistsError: continue
-            
+           
+            # This command the the argument 'check=False' to avoid raise an error when trying to download hidden videos, just skip it
             subprocess.run(["yt-dlp", "-x", "--audio-format", "mp3", "--audio-quality",
                             "0", "-o", "%(playlist_index)s-%(title)s.%(ext)s", "-P", os.path.join(album_path), link],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
  
             subprocess.run(["yt-dlp", "--flat-playlist", "--write-thumbnail", "-o", f"{album_names[index]}.%(ext)s", "-P", album_path, link], 
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
             
             # add the metadata
             for counter, song in enumerate(os.listdir(album_path)):
+                counter_ = counter
                 if song.endswith('.mp3'):
                     image = os.path.join(album_path, f"{album_names[index]}.jpg")
                     subprocess.check_output(
@@ -111,7 +117,7 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
                         "--track", str(counter+1),
                         f"--add-image={image}:FRONT_COVER",
                         os.path.join(album_path, song)])     
-        if total_songs[index] != counter: console.log("Failed downloading %d songs in %s" % (int(total_songs[index])-int(counter), album_names[index]))
+    if total_songs[index_] != counter_: console.log("Failed downloading %d songs in %s" % (int(total_songs[index_])-int(counter_), album_names[index_]))
     end_time = time.time(); console.log("Finished in %i seconds" % (end_time - start_time))
 
 def downloadSections(file: str, url: str, app_path: str, sections_title: bool, metadata: str) -> None:
@@ -151,7 +157,7 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
     with Progress() as progress:
         task1 = progress.add_task("Downloading", total=len(file))
         for index, section in enumerate(lines):
-            progress.update(task1, advance=1, description="Downloading Section %i of %i" % (index, len(lines)))
+            progress.update(task1, advance=1, description="Downloading Section %i of %i" % (index+1, len(lines)))
             if sections_title: 
                 subprocess.run(["yt-dlp", "-x", "--audio-format", "mp3", "--audio-quality", "0", "-o", f"{index+1}-%(section_title)s.%(ext)s",
                                 "-P", os.path.join(app_path), "--download-sections", f"{section}", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
