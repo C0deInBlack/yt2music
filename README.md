@@ -6,7 +6,7 @@ Download entire artist's music from YouTube: playlists, full albums, or song sec
 Docker
 
 ```bash
-sudo docker pull c0deinblack/yt-dlp-at:v2.1
+sudo docker pull c0deinblack/yt-dlp-at:v2.2
 git clone https://github.com/C0deInBlack/yt2music.git
 chmod +x yt2music.py
 ```
@@ -16,14 +16,14 @@ Local build
 ```bash
 git clone https://github.com/C0deInBlack/yt2music.git
 cd yt2music
-docker build -t c0deinblack/yt-dlp-at:v2.1
+docker build -t c0deinblack/yt-dlp-at:v2.2
 chmod +x yt2music.py
 ```
 
 ## Usage
 
 ```
-./yt2music
+./yt2music.py
 usage: yt2music.py [-h] [-p PATH] [-m METADATA] [-f FILE] [-u URL] [-s SECTIONS] [-sf SECTIONS_FILE] [-st SECTIONS_TITLE]
 
 Script for download YT music
@@ -61,7 +61,7 @@ Download sections and use default titles from the videos:
 ### Download from URL
 
 ```bash
-./yt2music -p /path/artist -m 'Artist name' -u 'https://www.youtube.com/example'
+./yt2music.py -p /path/artist -m 'Artist name' -u 'https://www.youtube.com/example'
 ```
 
 I recommend download from a url only if the link you are downloading have 'releases' in the url `https://www.youtube.com/@artist/releases` otherwise it will mess up and download all the songs in one directory instead of separated albums.
@@ -69,7 +69,7 @@ I recommend download from a url only if the link you are downloading have 'relea
 ### Download from file
 
 ```bash
-./yt2music -p /path/artist -m 'Artist name' -f /path/to/list.txt
+./yt2music.py -p /path/artist -m 'Artist name' -f /path/to/list.txt
 ```
 
 The best option is to download from a list, you have to save the links of the albums playlists in a plain text file. The file to read only have to be one link per line:
@@ -103,7 +103,7 @@ A sections file with the start time and the name of each song in the next format
 This will download the specified sections and add the custom title you provided.
 
 ```bash
-./yt2music -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -u 'http://www.youtube.com/example'
+./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -u 'http://www.youtube.com/example'
 ```
 #### Second Option (Sections)
 
@@ -121,6 +121,6 @@ Default_section_name 6
 This will download the sections and add the default name from the YouTube video
 
 ```bash
-./yt2music -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
+./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
 ```
 
