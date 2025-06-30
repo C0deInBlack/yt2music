@@ -18,6 +18,7 @@ Virtual env is recommended
 python -m venv libs
 pip install -r requirements.txt
 ```
+Also need to have ImageMagick installed.
 
 ## Usage
 
