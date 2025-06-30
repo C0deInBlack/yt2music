@@ -12,10 +12,9 @@ Pure Python implementation, no docker container needed anymore!
 git clone https://github.com/C0deInBlack/yt2music.git
 chmod +x yt2music.py
 ```
-Virtual env is recommended
+Install libraries
 
 ```bash
-python -m venv libs
 pip install -r requirements.txt
 ```
 Also need to have ImageMagick installed.
