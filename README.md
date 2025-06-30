@@ -1,29 +1,35 @@
 # yt2music
 Download entire artist's music from YouTube: playlists, full albums, or song sections, with automatic metadata and cover image tagging. 
 
+## News
+Pure Python implementation, no docker container needed anymore!
+
+![img](https://github.com/C0deInBlack/yt2music/blob/main/images/1.cleaned.png)
+
 ## Installation
 
-Docker
-
 ```bash
-sudo docker pull c0deinblack/yt-dlp-at:v2.2
 git clone https://github.com/C0deInBlack/yt2music.git
 chmod +x yt2music.py
 ```
-
-Local build
+Virtual env is recommended
 
 ```bash
-git clone https://github.com/C0deInBlack/yt2music.git
-cd yt2music
-docker build -t c0deinblack/yt-dlp-at:v2.2
-chmod +x yt2music.py
+python -m venv libs
+pip install -r requirements.txt
 ```
 
 ## Usage
 
 ```
-./yt2music.py
+ ./yt2music.py
+__   ___   ____                      _
+\ \ / / |_|___ \ _ __ ___  _   _ ___(_) ___
+ \ V /| __| __) | '_ ` _ \| | | / __| |/ __|
+  | | | |_ / __/| | | | | | |_| \__ \ | (__
+  |_|  \__|_____|_| |_| |_|\__,_|___/_|\___|
+
+
 usage: yt2music.py [-h] [-p PATH] [-m METADATA] [-f FILE] [-u URL] [-s SECTIONS] [-sf SECTIONS_FILE] [-st SECTIONS_TITLE]
 
 Script for download YT music
@@ -50,10 +56,10 @@ Read from a file:
 ./yt2music.py -p /path/artist -m 'Artist name' -f /path/to/list.txt
 
 Download sections and use custom names for the songs:
-./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -u 'http://www.youtube.com/example'
+./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/file.txt -sn /path/names.txt -u 'http://www.youtube.com/example'
 
 Download sections and use default titles from the videos:
-./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
+./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://www.youtube.com/example'
 ```
 
 **NOTE:** Don't write the metadata argument all in upper case, otherwise the program will fail. Why? I don't know. Things with python argparse.
