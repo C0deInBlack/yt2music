@@ -12,7 +12,7 @@ import pyfiglet
 from contextlib import redirect_stdout, redirect_stderr
 import io
 
-sys.path.append('LIBS/lib/python3.13/site-packages/')
+#sys.path.append('LIBS/lib/python3.13/site-packages/')
 from rich.console import Console
 from rich.progress import Progress
 
