@@ -1,0 +1,7 @@
+requests
+termcolor
+pyfiglet
+rich
+yt_dlp
+eyed3
+wand
