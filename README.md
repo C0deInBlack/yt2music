@@ -130,6 +130,10 @@ This will download the sections and add the default name from the YouTube video
 ./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
 ```
 
+## Note
+
+If you get an error downloading all songs for example, consider reinstalling yt-dlp (which is listed in requirements.txt)
+
 ## Extra
 For a more specific example of use visit [example](https://medium.com/@c0deinblack/yt2music-download-entire-artist-discographies-from-youtube-6210ff169897)
 
