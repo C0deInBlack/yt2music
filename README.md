@@ -132,7 +132,7 @@ This will download the sections and add the default name from the YouTube video
 
 ## Note
 
-If you get an error downloading all songs for example, consider reinstalling yt-dlp (which is listed in requirements.txt)
+If you get an error downloading all songs for example, consider reinstalling yt-dlp (which is listed in requirements.txt) because the team of yt-dlp are constantly working to make the script work [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 ## Extra
 For a more specific example of use visit [example](https://medium.com/@c0deinblack/yt2music-download-entire-artist-discographies-from-youtube-6210ff169897)
