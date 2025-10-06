@@ -1,18 +1,19 @@
 #!/usr/bin/python3
 
 """
-Version: v2.3 
+Version: v2.4 
 Author: https://github.com/C0deInBlack
 """
 
 import argparse, json, os, sys, signal, shutil, textwrap, re, time, pdb
+#sys.path.append('./LIBS/lib/python3.13/site-packages')
 import requests
 from termcolor import colored
 import pyfiglet
 from contextlib import redirect_stdout, redirect_stderr
 import io
 
-#sys.path.append('LIBS/lib/python3.13/site-packages/')
+sys.path.append('LIBS/lib/python3.13/site-packages/')
 from rich.console import Console
 from rich.progress import Progress
 
@@ -260,7 +261,7 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
 
         # Add the duration of the video in the las section
         sections_1[-1] = f"{sections_1[-1]}-{duration['duration_string']}"
-    
+        
     # get the name of the video and save it as album name
     opts2 = {
         'dump_single_json': True,
@@ -318,7 +319,10 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
 
             else:
                 # Format time 00:00-02:30 to seconds 0.0, 150.0
-                sections_formated = [float(i.split(':')[0])*60+float(i.split(':')[1]) for i in sections_1[index].split('-')]
+                if sections_1[index].count(':') == 2:
+                    sections_formated = [float(i.split(':')[0])*60+float(i.split(':')[1]) for i in sections_1[index].split('-')]
+                elif sections_1[index].count(':') == 4:
+                    sections_formated = [float(i.split(':')[0])*3600+float(i.split(':')[1])*60+float(i.split(':')[2]) for i in sections_1[index].split('-')]
                 opts4 = {
                     'download_ranges': download_range_func([], [sections_formated]),
                     'extract_flat': 'discard_in_playlist',
