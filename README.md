@@ -135,5 +135,7 @@ This will download the sections and add the default name from the YouTube video
 If you get an error downloading multiple songs, consider reinstalling yt-dlp (which is listed in requirements.txt) because the team of yt-dlp are constantly working to make the library work [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 ## Extra
+In the directory `useful_scripts` there are some tools for changing specific things about the downloaded songs, such as cover image, metadata, etc; and an alternative way to convert a mp4 video to complete mp3 album. \
+\
 For a more specific example of use visit [example](https://medium.com/@c0deinblack/yt2music-download-entire-artist-discographies-from-youtube-6210ff169897)
 
