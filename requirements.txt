@@ -5,3 +5,5 @@ rich
 yt_dlp
 eyed3
 wand
+moviepy
+PyQt5
