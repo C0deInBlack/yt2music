@@ -130,6 +130,11 @@ This will download the sections and add the default name from the YouTube video
 ./yt2music.py -p /path/artist -m 'Artist name' -s true -sf /path/sections_file.txt -st true -u 'http://ww.youtube.com/example'
 ```
 
+## GUI
+
+A graphic application created with PyQt5 is included, as an alternative use of the script. \
+![img](https://github.com/C0deInBlack/yt2music/blob/main/images/gui.png)
+
 ## Note
 
 If you get an error downloading multiple songs, consider reinstalling yt-dlp (which is listed in requirements.txt) because the team of yt-dlp are constantly working to make the library work [yt-dlp](https://github.com/yt-dlp/yt-dlp)
