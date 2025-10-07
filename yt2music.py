@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 
 """
-Version: v2.4 
+Version: v2.5 
 Author: https://github.com/C0deInBlack
 """
 
 import argparse, json, os, sys, signal, shutil, textwrap, re, time, pdb
-#sys.path.append('./LIBS/lib/python3.13/site-packages')
+sys.path.append('/home/gh0st/Programming/Python/yt2music/LIBS/lib/python3.13/site-packages')
 import requests
 from termcolor import colored
 import pyfiglet
 from contextlib import redirect_stdout, redirect_stderr
-import io
+import io, atexit
 
-sys.path.append('LIBS/lib/python3.13/site-packages/')
+# sys.path.append('LIBS/lib/python3.13/site-packages/')
 from rich.console import Console
 from rich.progress import Progress
 
@@ -33,10 +33,10 @@ def sig_handler(sig, fram) -> None:
     global console
     try: shutil.rmtree(os.path.join(CURRENT_NAME))  # delete the current dowloading folder if CTRL-C
     except Exception as e: pass
+    try: os.remove("url.txt")
+    except Exception: pass
     console.print("\n\n[red][!] Exiting\n"); sys.exit(0)
 
-# ==================================================================================================================================
-signal.signal(signal.SIGINT, sig_handler) # control-c handler function
 # ==================================================================================================================================
 
 def saveName(name: str) -> None: 
@@ -118,6 +118,11 @@ def rmSpecialChracters(name: str) -> str:
     return name.translate(table)
 
 # ==================================================================================================================================
+def updateStatus(status: str) -> None:
+    if __name__ != "__main__": # Status file for GUI application 
+        with open(".status", "w") as f: f.write(status)
+
+# ==================================================================================================================================
 def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: str) -> None:
     """
     download the songs reading the urls from a file 
@@ -125,7 +130,7 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
     """
     global console
     start_time = time.time()
-    file_name = file if not use_url else createUrls(url, 'url.txt') # create the urls file if not provided
+    file_name = file if not use_url else createUrls(url, "url.txt") # create the urls file if not provided
     
     os.makedirs(app_path, exist_ok=True) # create the directory to save the music, pass if already exist
     names, total_songs = getNames(file_name)
@@ -138,6 +143,9 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
 
     with Progress() as progress:
         task1 = progress.add_task("[*] Downloading", total=len(file))
+        
+        updateStatus("Downloading")
+        
         for index, link in enumerate(file):
             index_ = index
 
@@ -147,10 +155,15 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
             progress.update(task1, advance=0, description="[*] Downloading %i of %i" % (index+1, len(file)))
             progress.refresh()
 
+            updateStatus(f"Downloading {index+1} or {len(file)}")
+
             try: os.makedirs(album_path)
             except FileExistsError:
                 progress.update(task1, advance=1, description="[*] Downloading %i of %i" % (index+1, len(file)))
                 progress.refresh()
+                
+                updateStatus(f"Downloading {index+1} or {len(file)}")
+                
                 continue
            
             opts1 = {
@@ -195,6 +208,8 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
             progress.update(task1, advance=1, description="[*] Downloading %i of %i" % (index+1, len(file)))
             progress.refresh()
 
+            updateStatus(f"Downloading {index+1} or {len(file)}")
+
             # add the metadata
             for counter, song in enumerate(sorted(os.listdir(album_path))):
                 counter_ = counter
@@ -213,7 +228,9 @@ def downloadUrls(use_url: bool, file: str, url: str, metadata: str, app_path: st
                     audiofile.tag.save()
 
             if total_songs[index_] != counter_: print(''); console.log("Failed downloading %d songs in %s" % (int(total_songs[index_])-int(counter_), album_names[index_]))
-    end_time = time.time(); print(''); console.log("Finished in %i minutes" % ((end_time-start_time)/60))
+    end_time = time.time(); print(''); console.log("Finished in %.2f minutes" % ((end_time-start_time)/60))
+
+    updateStatus("Finished in %.2f minutes" % ((end_time-start_time)/60))
 
 # ==================================================================================================================================
 def downloadSections(file: str, url: str, app_path: str, sections_title: bool, metadata: str) -> None:
@@ -287,9 +304,15 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
 
     with Progress() as progress:
         task1 = progress.add_task("[*] Downloading", total=len(file))
+
+        updateStatus("Downloading")
+
         for index, section in enumerate(lines):
             progress.update(task1, advance=0, description="[*] Downloading Section %i of %i" % (index+1, len(lines)))
             progress.refresh()
+
+            updateStatus(f"Downloading Section {index+1} of {len(lines)}")
+
             if sections_title:
                 opts3 = {
                     'download_ranges': download_range_func([re.compile(f'{section}')], []),
@@ -352,6 +375,8 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
             progress.update(task1, advance=1, description="[*] Downloading Section %i of %i" % (index+1, len(lines)))
             progress.refresh()
 
+            updateStatus(f"Downloading Section {index+1} of {len(lines)}")
+
     # save the thumbnail
     opts5 = {
         'extract_flat': 'in_playlist',
@@ -377,7 +402,7 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
 
     # Clean the directory, remove the video file downloaded
     try: [os.remove(os.path.join(app_path, i)) for i in os.listdir(os.path.join(app_path)) if i.endswith('.webp') or i.endswith('.mkv') or i.endswith('.mp4') or i.endswith('.webm')]
-    except: pass
+    except Exception: pass
 
     # add the metadata
     for counter, song in enumerate(sorted(os.listdir(app_path))):
@@ -395,7 +420,8 @@ def downloadSections(file: str, url: str, app_path: str, sections_title: bool, m
             with open(image, 'rb') as cover_image: audiofile.tag.images.set(3, cover_image.read(), 'image/jpeg')
             audiofile.tag.save()
 
-    end_time = time.time(); print(''); console.log("Finished in %i minutes" % ((end_time-start_time)/60))
+    end_time = time.time(); print(''); console.log("Finished in %.2f minutes" % ((end_time-start_time)/60))
+    updateStatus("Finished in %.2f minutes" % ((end_time-start_time)/60))
 
 # ==================================================================================================================================
 def arguments():
@@ -468,6 +494,12 @@ def checkArguments(metadata: str, file: str, url: str, sections: bool, sections_
 
 # ==================================================================================================================================
 def main() -> None:
+    @atexit.register
+    def clean() -> None:
+        try: os.remove("url.txt")
+        except Exception: pass
+    
+    signal.signal(signal.SIGINT, sig_handler) # control-c handler function
     global console
     try: yt_dlp()
     except Exception: console.print_exception(show_locals=False)
