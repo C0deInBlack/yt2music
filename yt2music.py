@@ -6,7 +6,6 @@ Author: https://github.com/C0deInBlack
 """
 
 import argparse, json, os, sys, signal, shutil, textwrap, re, time, pdb
-sys.path.append('/home/gh0st/Programming/Python/yt2music/LIBS/lib/python3.13/site-packages')
 import requests
 from termcolor import colored
 import pyfiglet
