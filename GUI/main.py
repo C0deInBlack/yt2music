@@ -10,7 +10,7 @@ import multiprocessing
 sys.path.append("..")
 from yt2music import downloadUrls, downloadSections 
 
-sys.path.append("./LIBS/lib/python3.13/site-packages/")
+# sys.path.append("./LIBS/lib/python3.13/site-packages/")
 
 class Variables:
     def __init__(self, path:str="", file:str="", url:str="", metadata:str="", sections_file:str="", default_sections:bool=False, pid:int=0) -> None:
